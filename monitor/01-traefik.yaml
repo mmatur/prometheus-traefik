@@ -1,0 +1,19 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    team: monitoring
+  name: traefik-pod-monitor
+  namespace: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - traefik
+  podMetricsEndpoints:
+    - port: traefik-api
+      path: /metrics
+      interval: 15s
+  selector:
+    matchLabels:
+      app: traefik-ingress-lb
