@@ -5,15 +5,15 @@ metadata:
   labels:
     team: monitoring
   name: traefik-pod-monitor
-  namespace: monitoring
+  namespace: traefik
 spec:
   namespaceSelector:
     matchNames:
       - traefik
   podMetricsEndpoints:
-    - port: traefik-api
+    - port: traefik
       path: /metrics
       interval: 15s
   selector:
     matchLabels:
-      app: traefik-ingress-lb
+      app: traefik

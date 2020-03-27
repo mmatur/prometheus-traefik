@@ -12,23 +12,22 @@ k3d create --server-arg "--no-deploy=traefik" \
 ```
 
 Once the k3s is up and running we will install the prometheus opeator:
+
 ## Install prometheus-operator
 
 ```bash
-kubectl apply -f monitoring
-kubectl apply -f monitoring/operator
-```
-
-## Deploy prometheus
-
-```bash
-kubectl apply -f monitoring/prometheus
+kubectl create namespace monitoring
+helm install --namespace monitoring monitoring stable/prometheus-operator --values monitoring/values.yaml
 ```
 
 ## Deploy traefik
 
 ```
-kubectl apply -f traefik
+helm repo add traefik https://containous.github.io/traefik-helm-chart
+helm repo update
+
+kubectl create namespace traefik
+helm install --namespace traefik traefik traefik/traefik --values traefik/values.yaml
 ```
 
 ## Deploy ingresses
@@ -44,5 +43,7 @@ https://prometheus.docker.localhost
 ## Deploy monitor
 
 ```
-kubectl apply -f monitor
+kubectl apply -f monitor/
 ```
+
+Traefik is now monitored by prometheus.
